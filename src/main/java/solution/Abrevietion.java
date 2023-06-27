@@ -9,13 +9,13 @@ public class Abrevietion implements Comparable<Abrevietion> {
     private AbrevietionRules abrevietionRules;
     private String word;
     private String abrevietion;
-    private boolean isAbrevieted;
+    private boolean abrevieted;
 
     public Abrevietion(String word, AbrevietionRules abrevietionRules) {
         this.word = word;
         this.abrevietionRules = abrevietionRules;
         this.abrevietion = abrevieteWord();
-        this.isAbrevieted = isWordAbrevieteble();
+        this.abrevieted = isWordAbrevieteble();
         appendToAllAbrivietions(this);
     }
 
@@ -26,15 +26,15 @@ public class Abrevietion implements Comparable<Abrevietion> {
     public void setWord(String word) {
         this.word = word;
         this.abrevietion = abrevieteWord();
-        this.isAbrevieted = isWordAbrevieteble();
+        this.abrevieted = isWordAbrevieteble();
     }
 
     public String getAbrevietion() {
         return abrevietion;
     }
 
-    public boolean wereAbrevieted() {
-        return isAbrevieted;
+    public boolean isAbrevieted() {
+        return abrevieted;
     }
 
     private boolean isWordAbrevieteble(){
@@ -61,11 +61,11 @@ public class Abrevietion implements Comparable<Abrevietion> {
     }
 
     private ArrayList<Abrevietion> getAbrevitionsEqualsThisAbrevietionWord(){
-        return new ArrayList<>(ALL_ABREVIETIONS.stream().filter(Abrevietion::wereAbrevieted).filter(abrevietion -> abrevietion.getAbrevietion().equalsIgnoreCase(abrevietionRules.getAbrevieteFunction().apply(word))).toList());
+        return new ArrayList<>(ALL_ABREVIETIONS.stream().filter(Abrevietion::isAbrevieted).filter(abrevietion -> abrevietion.getAbrevietion().equalsIgnoreCase(abrevietionRules.getAbrevieteFunction().apply(word))).toList());
     }
 
     private ArrayList<Abrevietion> getAbrevietionsWithThisWord(){
-        return new ArrayList<>(ALL_ABREVIETIONS.stream().filter(Abrevietion::wereAbrevieted).filter(abrevietion -> abrevietion.getWord().equalsIgnoreCase(word)).toList());
+        return new ArrayList<>(ALL_ABREVIETIONS.stream().filter(Abrevietion::isAbrevieted).filter(abrevietion -> abrevietion.getWord().equalsIgnoreCase(word)).toList());
     }
 
     private boolean isThisWordAlreadyAbrevieted(){
@@ -78,7 +78,7 @@ public class Abrevietion implements Comparable<Abrevietion> {
     }
 
     private void appendToAllAbrivietions(Abrevietion abrevietion){
-        if (wereAbrevieted() && !ALL_ABREVIETIONS.contains(this)) ALL_ABREVIETIONS.add(abrevietion);
+        if (isAbrevieted() && !ALL_ABREVIETIONS.contains(this)) ALL_ABREVIETIONS.add(abrevietion);
     }
 
     @Override
@@ -86,12 +86,12 @@ public class Abrevietion implements Comparable<Abrevietion> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Abrevietion that = (Abrevietion) o;
-        return isAbrevieted == that.isAbrevieted && Objects.equals(word, that.word) && Objects.equals(abrevietion, that.abrevietion);
+        return abrevieted == that.abrevieted && Objects.equals(word, that.word) && Objects.equals(abrevietion, that.abrevietion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(word, abrevietion, isAbrevieted);
+        return Objects.hash(word, abrevietion, abrevieted);
     }
 
     @Override
